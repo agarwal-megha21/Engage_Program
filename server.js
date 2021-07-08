@@ -1,3 +1,4 @@
+// express helps to create and run a web server with node
 const express = require("express");
 const app = express();
 const server = require("http").Server(app);
@@ -8,18 +9,23 @@ const io = require("socket.io")(server, {
     origin: '*'
   }
 });
+
+//listening for join room event
 const { ExpressPeerServer } = require("peer");
 const peerServer = ExpressPeerServer(server, {
   debug: true,
 });
 
 app.use("/peerjs", peerServer);
+//Allow to access all the static files within public folder
 app.use(express.static("public"));
 
+//For creating random unique id for each room.
 app.get("/", (req, res) => {
   res.redirect(`/${uuidv4()}`);
 });
 
+//For creating a view for every unique room
 app.get("/:room", (req, res) => {
   res.render("room", { roomId: req.params.room });
 });

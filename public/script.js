@@ -13,6 +13,7 @@ backBtn.addEventListener("click", () => {
   document.querySelector(".header__back").style.display = "none";
 });
 
+//Chat event
 showChat.addEventListener("click", () => {
   document.querySelector(".main__right").style.display = "flex";
   document.querySelector(".main__right").style.flex = "1";
@@ -28,6 +29,7 @@ var peer = new Peer(undefined, {
   port: "443",
 });
 
+// Get the video stream (user media)
 let myVideoStream;
 navigator.mediaDevices
   .getUserMedia({
@@ -51,6 +53,8 @@ navigator.mediaDevices
     });
   });
 
+
+//If a new user enter the room that will be listened here
 const connectToNewUser = (userId, stream) => {
   const call = peer.call(userId, stream);
   const video = document.createElement("video");
@@ -63,6 +67,7 @@ peer.on("open", (id) => {
   socket.emit("join-room", ROOM_ID, id, user);
 });
 
+// This add the stream to video element
 const addVideoStream = (video, stream) => {
   video.srcObject = stream;
   video.addEventListener("loadedmetadata", () => {
@@ -89,6 +94,7 @@ text.addEventListener("keydown", (e) => {
   }
 });
 
+// Muting audio and video
 const inviteButton = document.querySelector("#inviteButton");
 const muteButton = document.querySelector("#muteButton");
 const stopVideo = document.querySelector("#stopVideo");
@@ -122,6 +128,7 @@ stopVideo.addEventListener("click", () => {
   }
 });
 
+//Add person button
 inviteButton.addEventListener("click", (e) => {
   prompt(
     "Copy this link and send it to people you want to meet with",
